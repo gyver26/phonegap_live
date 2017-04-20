@@ -546,7 +546,7 @@
     "mm.login.contactyouradministratorissue": "Please, ask the administrator to check the following issue: {{$a}}",
     "mm.login.createaccount": "Create my new account",
     "mm.login.createuserandpass": "Choose your username and password",
-    "mm.login.credentialsdescription": "Please provide your username and password to log in.",
+    "mm.login.credentialsdescription": "Please provide your username/email address and password to log in.",
     "mm.login.emailconfirmsent": "<p>An email should have been sent to your address at <b>{{$a}}</b></p><p>It contains easy instructions to complete your registration.</p><p>If you continue to have difficulty, contact the site administrator.</p>",
     "mm.login.emailnotmatch": "Emails do not match",
     "mm.login.enterthewordsabove": "Enter the words above",
