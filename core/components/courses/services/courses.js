@@ -308,22 +308,36 @@ angular.module('mm.core.courses')
 
             return site.read('core_course_get_courses_by_field', data, preSets).then(function(courses) {
                 if (courses.courses) {
-                    // Courses will be sorted using sortorder if avalaible.
-                    return courses.courses.sort(function(a, b) {
-                        if (typeof a.sortorder == "undefined" && typeof b.sortorder == "undefined") {
-                            return b.id - a.id;
-                        }
+                     /* ADDED BY GYVER  */
+                    courses.courses.sort(function(a, b) {
+                      var nameA = a.fullname.toUpperCase().trim(); // ignore upper and lowercase
+                      var nameB = b.fullname.toUpperCase().trim(); // ignore upper and lowercase
+                      if (nameA < nameB) {
+                        return -1;
+                      }
+                      if (nameA > nameB) {
+                        return 1;
+                      }
 
-                        if (typeof a.sortorder == "undefined") {
-                            return 1;
-                        }
-
-                        if (typeof b.sortorder == "undefined") {
-                            return -1;
-                        }
-
-                        return a.sortorder - b.sortorder;
+                      // names must be equal
+                      return 0;
                     });
+                    
+                    var visible_courses = [];
+                    var hidden_courses = [];
+                    var x;
+                
+                    courses.courses.forEach( function (course){
+                        if(course.visible === 1){
+                            visible_courses.push(course);
+                        }
+                        else{
+                            hidden_courses.push(course);
+                        }
+                    });
+                    var combined_courses=visible_courses.concat(hidden_courses);
+                    return combined_courses;
+                    /* END OF ADDITION  */
                 }
                 return $q.reject();
             });
@@ -520,12 +534,42 @@ angular.module('mm.core.courses')
             }
 
             return site.read('core_enrol_get_users_courses', data, presets).then(function(courses) {
+                /* ADDED BY GYVER  */
+                courses.sort(function(a, b) {
+                  var nameA = a.fullname.toUpperCase().trim(); // ignore upper and lowercase
+                  var nameB = b.fullname.toUpperCase().trim(); // ignore upper and lowercase
+                  if (nameA < nameB) {
+                    return -1;
+                  }
+                  if (nameA > nameB) {
+                    return 1;
+                  }
+
+                  // names must be equal
+                  return 0;
+                });
+                
+                var visible_courses = [];
+                var hidden_courses = [];
+                var x;
+            
+                courses.forEach( function (course){
+                    if(course.visible === 1){
+                        visible_courses.push(course);
+                    }
+                    else{
+                        hidden_courses.push(course);
+                    }
+                });
+                var combined_courses=visible_courses.concat(hidden_courses);
+                /* END OF ADDITION  */
+                    
                 siteid = siteid || site.getId();
                 if (siteid === $mmSite.getId()) {
                     // Only store courses if we're getting current site courses. This function is deprecated and will be removed.
-                    storeCoursesInMemory(courses);
+                    storeCoursesInMemory(combined_courses);
                 }
-                return courses;
+                return combined_courses;
             });
         });
     };
