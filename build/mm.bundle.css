@@ -14069,7 +14069,8 @@ ion-popover-view {
 
 #coursepreviewimg {
   width: 80%;
-  max-width: 270px; }
+  max-width: 270px;
+  margin: 10px 0; }
 
 #coursepreviewimg-my {
   width: 260px;
